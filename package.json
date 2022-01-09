@@ -10,5 +10,6 @@
     "xml-pixi": "^0.0.1"
   },
   "devDependencies": {
+    "teddi-cli": "^0.0.2"
   }
 }
