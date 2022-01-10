@@ -2,12 +2,14 @@ import { Container } from "pixi.js";
 import * as TWEEN from "@tweenjs/tween.js";
 import { FLIP_TYPE } from "./enum";
 
+/** 翻转所有的卡片到正面或背面 */
 export const playFipAllAnimation = (type: FLIP_TYPE, gridView: Container) => {
     return Promise.all(
         gridView.children.map(
             (child: Container) => playFlipAnimation(type, child))
     )
 }
+/** 翻转单个卡片到正面或背面 */
 export const playFlipAnimation = (type: FLIP_TYPE, cardView: Container) => {
     return new Promise((resolve) => {
         const toFront = type == FLIP_TYPE.FRONT;
