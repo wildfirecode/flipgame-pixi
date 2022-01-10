@@ -1,6 +1,6 @@
 import { Container } from "pixi.js";
 import * as TWEEN from "@tweenjs/tween.js";
-import { FLIP_TYPE } from "./card";
+import { FLIP_TYPE } from "./enum";
 
 export const playFipAllAnimation = (type: FLIP_TYPE, gridView: Container) => {
     return Promise.all(

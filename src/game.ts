@@ -1,11 +1,10 @@
-import { Container, Sprite, Texture } from "pixi.js";
 import { wait } from "teddi-lodash";
 import { parseXML } from "xml-pixi";
-import { getRandomTypeList } from "./algorithm";
 import { playFipAllAnimation } from "./animation";
-import { FLIP_TYPE } from "./card";
-import { gameStructure, MAX_COL, MAX_ROW, CARD_SIZE, ASSETS } from "./config";
+import { CARD_SIZE, gameStructure, MAX_COL, MAX_ROW } from "./config";
+import { FLIP_TYPE } from "./enum";
 import { addUserInteraction } from "./user";
+import { flipAllCardTo, initCardType } from "./view";
 
 
 export const createGame = () => {
@@ -24,27 +23,3 @@ export const createGame = () => {
     return gridView
 }
 
-const initCardType = (girdView: Container) => {
-    const typeList = getRandomTypeList(ASSETS.frontList.length, MAX_COL * MAX_ROW);
-    girdView.children.forEach(
-        async (cardView: Container, index) => {
-            const [back, front] = cardView.children as Sprite[];
-            const type = typeList[index];
-            front.texture = await Texture.fromURL(ASSETS.frontList[type]);
-        }
-    );
-}
-
-const flipCardTo = (type: FLIP_TYPE, cardView: Container) => {
-    const toFront = type == FLIP_TYPE.FRONT;
-    const [back, front] = cardView.children;
-    back.scale.x = 1;
-    front.scale.x = 1;
-    back.visible = !toFront;
-    front.visible = toFront;
-}
-
-const flipAllCardTo = (type: FLIP_TYPE, gridView: Container) => {
-    gridView.children.forEach(
-        (cardView: Container) => flipCardTo(type, cardView))
-}

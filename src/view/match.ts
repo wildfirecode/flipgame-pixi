@@ -15,7 +15,3 @@ export const match = (card0: Container, card1: Container) => {
     return getTextureId(front0) == getTextureId(front1)
 }
 
-export enum FLIP_TYPE {
-    FRONT = 'FRONT',
-    BACK = 'BACK',
-}
