@@ -1,10 +1,11 @@
 import { Container, InteractionEvent, Sprite } from "pixi.js";
-import { getGridCellIndex, wait } from "teddi-lodash";
+import { wait } from "teddi-lodash";
+import { getGridCellIndex } from "./algorithm/getGridCellIndex";
 import { getMatchedCards, isSuccess } from "./algorithm/match";
 import { playFlipAnimation } from "./animation";
+import { match } from "./card";
 import { CARD_SIZE, MAX_COL } from "./config/config";
 import { FLIP_TYPE } from "./game";
-
 
 let matchedCards: Container[] = [];
 const userCards: Container[] = [];
@@ -32,29 +33,29 @@ function removeFromLockedCards(card) {
 
 const onUserClick = async (e: InteractionEvent) => {
     const gridView = e.target as Container;
-    const { x:stageX, y:stageY  } = e.data.global;
-    const index = getGridCellIndex([stageX, stageY],CARD_SIZE[0],CARD_SIZE[1], MAX_COL);
-    const clickedCard = gridView.children[index] as Sprite;    
+    const { x: stageX, y: stageY } = e.data.global;
+    const index = getGridCellIndex([stageX, stageY], CARD_SIZE[0], CARD_SIZE[1], MAX_COL);
+    const clickedCard = gridView.children[index] as Sprite;
 
-    if (isMatchedCard(clickedCard) 
-    ||  isUserCard(clickedCard)
-    || isLockedCard(clickedCard)) return;//已经匹配的元素不能再参与交互处理
+    if (isMatchedCard(clickedCard)
+        || isUserCard(clickedCard)
+        || isLockedCard(clickedCard)) return;//已经匹配的元素不能再参与交互处理
 
     userCards.push(clickedCard);
 
-    const currentMatchedCards = getMatchedCards(userCards);
+    const currentMatchedCards = getMatchedCards(userCards,match);
     matchedCards = matchedCards.concat(currentMatchedCards);
 
     currentMatchedCards.forEach(matchedCard => removeFromUserCards(matchedCard));//匹配的元素立刻从userCards移除
 
     playFlipAnimation(FLIP_TYPE.FRONT, clickedCard);
-    
-    if (isSuccess(matchedCards, gridView)) {
-        wait(1000).then(()=>alert('勝利了'));
+
+    if (isSuccess(matchedCards, gridView.children)) {
+        wait(1000).then(() => alert('勝利了'));
     } else {
         await wait(1000);
         if (!isMatchedCard(clickedCard)) {
-            playFlipAnimation(FLIP_TYPE.BACK, clickedCard).then(()=>{
+            playFlipAnimation(FLIP_TYPE.BACK, clickedCard).then(() => {
                 removeFromLockedCards(clickedCard)
             });
             removeFromUserCards(clickedCard);

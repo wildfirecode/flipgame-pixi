@@ -1,13 +1,13 @@
 import { Container, Sprite, Texture } from "pixi.js";
-import { shuffle, wait } from "teddi-lodash";
+import { wait } from "teddi-lodash";
 import { parseXML } from "xml-pixi";
-
-import { getTypeList } from "./algorithm/type";
-import { playFipAllAnimation, playFlipAnimation } from "./animation";
+import { getRandomTypeList } from "./algorithm/type";
+import { playFipAllAnimation } from "./animation";
 import { ASSETS } from "./config/assets";
 import { CARD_SIZE, MAX_COL, MAX_ROW } from "./config/config";
 import { gameStructure } from "./config/structure";
 import { addUserInteraction } from "./user";
+
 
 export const createGame = () => {
     const gridView = parseXML(gameStructure,
@@ -31,7 +31,7 @@ export enum FLIP_TYPE {
 }
 
 const initCardType = (girdView: Container) => {
-    const typeList = shuffle(getTypeList());
+    const typeList = getRandomTypeList(ASSETS.frontList.length, MAX_COL * MAX_ROW);
     girdView.children.forEach(
         async (cardView: Container, index) => {
             const [back, front] = cardView.children as Sprite[];
