@@ -1,11 +1,9 @@
 import { Container, InteractionEvent, Sprite } from "pixi.js";
 import { wait } from "teddi-lodash";
-import { getGridCellIndex } from "./algorithm/getGridCellIndex";
-import { getMatchedCards, isSuccess } from "./algorithm/match";
+import { getGridCellIndex, getMatchedCards, isSuccess } from "./algorithm";
 import { playFlipAnimation } from "./animation";
-import { match } from "./card";
-import { CARD_SIZE, MAX_COL } from "./config/config";
-import { FLIP_TYPE } from "./game";
+import { FLIP_TYPE, match } from "./card";
+import { CARD_SIZE, MAX_COL } from "./config";
 
 let matchedCards: Container[] = [];
 const userCards: Container[] = [];

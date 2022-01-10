@@ -14,3 +14,8 @@ export const match = (card0: Container, card1: Container) => {
     const [back1, front1] = card1.children as Sprite[];
     return getTextureId(front0) == getTextureId(front1)
 }
+
+export enum FLIP_TYPE {
+    FRONT = 'FRONT',
+    BACK = 'BACK',
+}

@@ -1,7 +1,7 @@
 import * as TWEEN from "@tweenjs/tween.js";
 import { Application } from "pixi.js";
 import { initParser } from "xml-pixi";
-import { ASSETS } from "./config/assets";
+import { ASSETS } from "./config";
 import { createGame } from "./game";
 
 //Create a Pixi Application

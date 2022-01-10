@@ -1,11 +1,10 @@
 import { Container, Sprite, Texture } from "pixi.js";
 import { wait } from "teddi-lodash";
 import { parseXML } from "xml-pixi";
-import { getRandomTypeList } from "./algorithm/type";
+import { getRandomTypeList } from "./algorithm";
 import { playFipAllAnimation } from "./animation";
-import { ASSETS } from "./config/assets";
-import { CARD_SIZE, MAX_COL, MAX_ROW } from "./config/config";
-import { gameStructure } from "./config/structure";
+import { FLIP_TYPE } from "./card";
+import { gameStructure, MAX_COL, MAX_ROW, CARD_SIZE, ASSETS } from "./config";
 import { addUserInteraction } from "./user";
 
 
@@ -23,11 +22,6 @@ export const createGame = () => {
     });
 
     return gridView
-}
-
-export enum FLIP_TYPE {
-    FRONT = 'FRONT',
-    BACK = 'BACK',
 }
 
 const initCardType = (girdView: Container) => {
