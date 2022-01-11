@@ -1,10 +1,10 @@
 import { Container, InteractionEvent, Sprite } from "pixi.js";
 import { getGridCellIndex, getMatchedCards, isSuccess } from "./algorithm";
-import { playFipAllAnimation, playFlipAnimation } from "./animation";
+import { playFlipAnimation } from "./animation";
 import { CARD_SIZE, MAX_COL } from "./config";
 import { FLIP_TYPE } from "./enum";
 import { wait } from "./utils";
-import { flipCardTo, match } from "./view";
+import { match } from "./view";
 
 function includeCard(card, cardList) { return cardList.indexOf(card) != -1 }
 
