@@ -1,9 +1,9 @@
-import { wait } from "teddi-lodash";
 import { parseXML } from "xml-pixi";
 import { playFipAllAnimation } from "./animation";
 import { CARD_SIZE, gameStructure, MAX_COL, MAX_ROW } from "./config";
 import { FLIP_TYPE } from "./enum";
 import { addUserInteraction } from "./user";
+import { wait } from "./utils";
 import { flipAllCardTo, initCardType } from "./view";
 
 
