@@ -3,6 +3,7 @@ import { Application } from "pixi.js";
 import { initParser } from "xml-pixi";
 import { ASSETS } from "./config";
 import { createGame } from "./game";
+import { initUI } from "./ui";
 
 //Create a Pixi Application
 let app = new Application({
@@ -30,6 +31,8 @@ const setup =  () => {
     const game = createGame();
 
     app.stage.addChild(game);
+
+    initUI();
 }
 
 setup();
