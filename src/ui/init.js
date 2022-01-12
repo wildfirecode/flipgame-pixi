@@ -1,12 +1,14 @@
-import { highlightCardPairs,autoFlip,resetUser } from "../user"
+import { highlightCardPairs, autoFlip, resetUser } from "../user"
+import { startCountdown } from "../time"
 
-let app
+export let appUI
 export const initUI = () => {
-  app = new Vue({
+  appUI = new Vue({
     el: '#app',
     data: {
       seen: false,
-      resetSeen:false
+      resetSeen: false,
+      countdown: 0
     },
     methods: {
       highlight: function () {
@@ -17,6 +19,7 @@ export const initUI = () => {
       },
       reset: function () {
         resetUser();
+        startCountdown();
         hideResetButton();
       },
     }
@@ -24,16 +27,20 @@ export const initUI = () => {
 
 }
 
+export const updateCountdown = (val) => {
+  appUI.countdown = val;
+}
+
 export const showUI = () => {
-  app.seen = true;
+  appUI.seen = true;
 }
 
 export const showResetButton = () => {
-  app.resetSeen = true;
-  app.seen = false;
+  appUI.resetSeen = true;
+  appUI.seen = false;
 }
 
 export const hideResetButton = () => {
-  app.resetSeen = false;
-  app.seen = true;
+  appUI.resetSeen = false;
+  showUI();
 }

@@ -4,6 +4,7 @@ import { playFipAllAnimation, playFlipAnimation } from "./animation";
 import { CARD_SIZE, MAX_COL } from "./config";
 import { FLIP_TYPE } from "./enum";
 import { gridView } from "./game";
+import { stopCountdown } from "./time";
 import { showResetButton } from "./ui";
 import { wait } from "./utils";
 import { clearHighlight, highlight, match } from "./view";
@@ -19,8 +20,14 @@ let matchedCards: Container[] = [];
 let userCards: Container[] = [];
 let lockedCards: Container[] = [];
 
+export const onUserTimeout = ()=>{
+    removeUserInteraction();
+    showResetButton();
+}
+
 export const resetUser = async () => {
     await playFipAllAnimation(FLIP_TYPE.BACK,gridView)
+    addUserInteraction();
     matchedCards = [];
     userCards = [];
     lockedCards = [];
@@ -53,6 +60,8 @@ export const autoFlip = () => {
 }
 
 const onSuccess = () => {
+    removeUserInteraction();
+    stopCountdown();
     wait(1000).then(() => {
         showResetButton();
         alert('胜利了');
@@ -96,7 +105,11 @@ const onUserClick = async (e: InteractionEvent) => {
     }
 }
 
-export const addUserInteraction = (gridView: Container) => {
+export const addUserInteraction = () => {
     gridView.interactive = true;
     gridView.on('pointerdown', onUserClick);
+}
+export const removeUserInteraction = () => {
+    gridView.interactive = false;
+    gridView.off('pointerdown', onUserClick);
 }

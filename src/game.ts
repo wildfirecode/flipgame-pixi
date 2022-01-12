@@ -2,8 +2,9 @@ import { parseXML } from "xml-pixi";
 import { playFipAllAnimation } from "./animation";
 import { CARD_SIZE, gameStructure, MAX_COL, MAX_ROW } from "./config";
 import { FLIP_TYPE } from "./enum";
+import { startCountdown } from "./time";
 import { showUI } from "./ui";
-import { addUserInteraction } from "./user";
+import { addUserInteraction, resetUser } from "./user";
 import { wait } from "./utils";
 import { flipAllCardTo, initCardType } from "./view";
 
@@ -18,11 +19,10 @@ export const createGame = () => {
     flipAllCardTo(FLIP_TYPE.FRONT, gridView);
 
     wait(1000).then(async () => {
-        await playFipAllAnimation(FLIP_TYPE.BACK, gridView)
-        addUserInteraction(gridView);
+        resetUser();
+        startCountdown();
 
         showUI();
-
     });
 
     return gridView
