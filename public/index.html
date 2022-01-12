@@ -28,10 +28,11 @@
 
 <body>
     <div id="app">
-        <div id="ctrls" v-if="seen">
+        <div v-if="seen">
             <button v-on:click="highlight">标记一对</button>
             <button v-on:click="flip">翻转一对</button>
         </div>
+        <button v-if="resetSeen" v-on:click="reset">重新开始</button>
     </div>
 
 

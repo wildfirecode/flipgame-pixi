@@ -1,9 +1,10 @@
 import { Container, InteractionEvent, Sprite } from "pixi.js";
 import { getGridCellIndex, getMatchedCards, getUnmatchedCard, isSuccess } from "./algorithm";
-import { playFlipAnimation } from "./animation";
+import { playFipAllAnimation, playFlipAnimation } from "./animation";
 import { CARD_SIZE, MAX_COL } from "./config";
 import { FLIP_TYPE } from "./enum";
 import { gridView } from "./game";
+import { showResetButton } from "./ui";
 import { wait } from "./utils";
 import { clearHighlight, highlight, match } from "./view";
 
@@ -15,8 +16,15 @@ function removeCard(card, cardList) {
 }
 
 let matchedCards: Container[] = [];
-const userCards: Container[] = [];
-const lockedCards: Container[] = [];
+let userCards: Container[] = [];
+let lockedCards: Container[] = [];
+
+export const resetUser = async () => {
+    await playFipAllAnimation(FLIP_TYPE.BACK,gridView)
+    matchedCards = [];
+    userCards = [];
+    lockedCards = [];
+}
 
 export const highlightCardPairs = () => {
     const cardList = getUnmatchedCard(gridView.children, matchedCards, userCards, lockedCards);
@@ -38,10 +46,17 @@ export const autoFlip = () => {
         clearHighlight(card1);
         playFlipAnimation(FLIP_TYPE.FRONT, card0);//立刻翻转
         playFlipAnimation(FLIP_TYPE.FRONT, card1);//立刻翻转
+        if (isSuccess(matchedCards, gridView.children)) {
+            onSuccess();
+        }
     }
-    if (isSuccess(matchedCards, gridView.children)) {
-        wait(1000).then(() => alert('胜利了'));
-    }
+}
+
+const onSuccess = () => {
+    wait(1000).then(() => {
+        showResetButton();
+        alert('胜利了');
+    });
 }
 
 const onUserClick = async (e: InteractionEvent) => {
@@ -68,7 +83,7 @@ const onUserClick = async (e: InteractionEvent) => {
     playFlipAnimation(FLIP_TYPE.FRONT, clickedCard);//立刻翻转
 
     if (isSuccess(matchedCards, gridView.children)) {
-        wait(1000).then(() => alert('胜利了'));
+        onSuccess();
     } else {
         await wait(1000);//这里的wait没有做中断处理，但是会让代码的可读性有一些提升
         if (!includeCard(clickedCard, matchedCards)) { //如果没有配对，就需要回退翻转，并且恢复交互
